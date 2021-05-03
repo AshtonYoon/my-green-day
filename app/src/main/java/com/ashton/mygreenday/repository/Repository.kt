@@ -22,20 +22,18 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Repository(application: Application) {
-    private val client: ITunesService = RetrofitClient.service
-
     private val trackDatabase: TrackDatabase = TrackDatabase.getInstance(application)!!
     private val trackDao: TrackDao = trackDatabase.trackDao()
 
     fun getGreendaySongs()=
         Pager(
-            config = PagingConfig(pageSize = TrackPagingDataSource.PAGE_SIZE),
+            config = PagingConfig(pageSize = TrackPagingDataSource.PAGE_SIZE, prefetchDistance = 2),
             pagingSourceFactory = { TrackPagingDataSource(RetrofitClient.service, trackDao) }
         ).liveData
 
     fun getFavoriteSongs() =
         Pager(
-            config = PagingConfig(pageSize = TrackPagingDataSource.PAGE_SIZE),
+            config = PagingConfig(pageSize = TrackPagingDataSource.PAGE_SIZE, prefetchDistance = 2),
             pagingSourceFactory = { FavoriteTrackPagingDataSource(trackDao) }
         ).liveData
 
