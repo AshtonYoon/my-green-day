@@ -7,13 +7,17 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashton.mygreenday.R
 import com.ashton.mygreenday.adapter.TrackAdapter
 import com.ashton.mygreenday.viewmodel.TrackViewModel
 import com.ashton.mygreenday.databinding.FragmentGreendayBinding
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class GreendayFragment : Fragment() {
@@ -36,12 +40,26 @@ class GreendayFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val adapter = TrackAdapter {
+        var trackAdapter = TrackAdapter {
             lifecycleScope.launch(Dispatchers.IO) {
                 viewModel.update(it.apply { favorite = !favorite })
             }
         }
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = trackAdapter
+        }
+
+        viewModel.tracks.observe(viewLifecycleOwner, Observer {
+            CoroutineScope(Dispatchers.IO).launch {
+                trackAdapter.submitData(it)
+            }
+        })
+//        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+//            viewModel.tracks.collectLatest {
+//                trackAdapter.submitData(it)
+//            }
+//        }
     }
 }

@@ -2,17 +2,18 @@ package com.ashton.mygreenday.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ashton.mygreenday.R
 import com.ashton.mygreenday.databinding.ItemTrackBinding
 import com.ashton.mygreenday.model.Track
 
 class TrackAdapter(val favoriteClick: (Track) -> Unit) :
-    ListAdapter<Track, TrackAdapter.ViewHolder>(
-        MovieDiffUtil
+    PagingDataAdapter<Track, TrackAdapter.ViewHolder>(
+        TrackDiffUtil
     ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,8 +27,8 @@ class TrackAdapter(val favoriteClick: (Track) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = getItem(position)
-        holder.bind(movie)
+        val track = getItem(position)
+        if(track != null) holder.bind(track)
     }
 
     inner class ViewHolder(private val binding: ItemTrackBinding) :
@@ -38,25 +39,27 @@ class TrackAdapter(val favoriteClick: (Track) -> Unit) :
 
             binding.favorite.setOnClickListener {
                 favoriteClick(track)
+                refresh()
             }
         }
     }
 
-    companion object MovieDiffUtil : DiffUtil.ItemCallback<Track>() {
+    // TODO: DiffUtil이 false, true를 번갈아가며 리턴한다 -_-;
+    // (n % 2 == 1)인 n번째 업데이트에서는 oldItem, newItem이 같은 객체를 참조
+    // (n % 2 == 0)인 n번째 업데이트에서는 oldItem과 newItem이 서로 다른 객체를 참조함
+    companion object TrackDiffUtil : DiffUtil.ItemCallback<Track>() {
         override fun areItemsTheSame(
             oldItem: Track,
             newItem: Track
         ): Boolean {
-            return oldItem == newItem
+            return false
         }
 
         override fun areContentsTheSame(
             oldItem: Track,
             newItem: Track
         ): Boolean {
-            return oldItem == newItem
+            return false
         }
     }
-
-
 }

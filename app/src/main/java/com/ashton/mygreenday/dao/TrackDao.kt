@@ -6,15 +6,15 @@ import com.ashton.mygreenday.model.Track
 
 @Dao
 interface TrackDao {
-    @Query("SELECT * FROM Track")
-    fun getAllTracks(): LiveData<List<Track>>
+    @Query("SELECT * FROM Track LIMIT :offset, :size")
+    suspend fun getTracks(offset: Int, size: Int): List<Track>
 
     @Query("SELECT * FROM Track WHERE favorite = 1")
-    fun getFavoriteTracks(): LiveData<List<Track>>
+    suspend fun getFavoriteTracks(): List<Track>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(track: Track)
+    suspend fun insertAll(tracks: List<Track>)
 
     @Update
-    fun update(track: Track)
+    suspend fun update(track: Track)
 }
