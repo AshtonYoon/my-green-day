@@ -1,5 +1,6 @@
 package com.ashton.mygreenday.source
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.ashton.mygreenday.dao.TrackDao
@@ -8,8 +9,10 @@ import com.ashton.mygreenday.retrofit.ITunesService
 
 class TrackPagingDataSource(private val service: ITunesService, private val trackDao: TrackDao) :
     PagingSource<Int, Track>() {
+    private var offset = 0
+
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Track> {
-        val offset = params.key ?: 0
+        offset = params.key ?: 0
 
         return try {
             var tracks = trackDao.getTracks(offset, PAGE_SIZE)
@@ -41,7 +44,7 @@ class TrackPagingDataSource(private val service: ITunesService, private val trac
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Track>): Int = 0
+    override fun getRefreshKey(state: PagingState<Int, Track>): Int = offset
 
     companion object {
         // 한 번에 최대로 가져올 수 있는 개수

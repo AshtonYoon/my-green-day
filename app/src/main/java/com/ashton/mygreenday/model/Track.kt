@@ -24,8 +24,8 @@ data class Track(
     @ColumnInfo(name = "artist_name")
     val artistName: String,
 
-    @SerializedName("artworkUrl100")
-    @ColumnInfo(name = "artworkUrl100")
+    @SerializedName("artworkUrl60")
+    @ColumnInfo(name = "artworkUrl60")
     val artworkUrl100: String,
 
     @ColumnInfo(name = "favorite")

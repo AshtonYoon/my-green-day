@@ -42,8 +42,7 @@ class FavoritesFragment : Fragment() {
 
         val trackAdapter = TrackAdapter {
             lifecycleScope.launch(Dispatchers.IO) {
-                val newValue = it.apply { favorite = !favorite }
-                viewModel.update(newValue)
+                viewModel.update(it.apply { favorite = !favorite })
             }
         }
 

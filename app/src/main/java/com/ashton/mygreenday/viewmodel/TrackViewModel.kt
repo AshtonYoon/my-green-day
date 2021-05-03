@@ -17,10 +17,10 @@ import kotlinx.coroutines.launch
 class TrackViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = Repository(application)
 
-    val tracks = repository.getGreendaySongs().cachedIn(viewModelScope)
-    val favoriteTracks = repository.getFavoriteSongs().cachedIn(viewModelScope)
+    val tracks = repository.getGreendaySongs()
+    val favoriteTracks = repository.getFavoriteSongs()
 
-    suspend fun update(track: Track) {
+    suspend fun update(track: Track) = viewModelScope.launch {
         repository.update(track)
     }
 }

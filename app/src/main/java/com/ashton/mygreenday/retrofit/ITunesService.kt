@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface ITunesService {
     @GET("search")
     suspend fun search(
-            @Query("term") term: String = "5sos",
+            @Query("term") term: String = "greenday",
             @Query("entity") entity: String = "song",
             @Query("offset") offset: Int,
             @Query("limit") limit: Int

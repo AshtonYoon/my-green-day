@@ -24,8 +24,6 @@ class GreendayFragment : Fragment() {
     private lateinit var binding: FragmentGreendayBinding
     private val viewModel: TrackViewModel by viewModels()
 
-    private var inited = false
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,8 +42,7 @@ class GreendayFragment : Fragment() {
 
         var trackAdapter = TrackAdapter {
             lifecycleScope.launch(Dispatchers.IO) {
-                val newValue = it.apply { favorite = !favorite }
-                viewModel.update(newValue)
+                viewModel.update(it.apply { favorite = !favorite })
             }
         }
 
