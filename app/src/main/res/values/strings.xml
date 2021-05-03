@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">my greenday</string>
+    <string name="title_greenday">Greenday</string>
+    <string name="title_favorites">Favorites</string>
+</resources>

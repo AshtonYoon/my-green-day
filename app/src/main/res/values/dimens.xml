@@ -1,0 +1,13 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="size_track_cover">50dp</dimen>
+    <dimen name="marginstart_track_cover">20dp</dimen>
+    <dimen name="marginstart_track_title">10dp</dimen>
+    <dimen name="textsize_track_title">14sp</dimen>
+    <dimen name="textsize_track_subtitle">12sp</dimen>
+    <dimen name="size_track_star">25dp</dimen>
+    <dimen name="marginend_track_star">20dp</dimen>
+    <dimen name="marginend_track_title">65dp</dimen>
+</resources>
