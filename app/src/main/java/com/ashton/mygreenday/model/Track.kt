@@ -7,7 +7,9 @@ import com.google.gson.annotations.SerializedName
 
 @Entity
 data class Track(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
+    @SerializedName("trackId")
+    @ColumnInfo(name = "track_id")
     val id: Int?,
 
     @SerializedName("trackName")

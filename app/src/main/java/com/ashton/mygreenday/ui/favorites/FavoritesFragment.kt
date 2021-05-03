@@ -4,21 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ashton.mygreenday.R
 import com.ashton.mygreenday.adapter.TrackAdapter
 import com.ashton.mygreenday.databinding.FragmentFavoritesBinding
-import com.ashton.mygreenday.databinding.FragmentGreendayBinding
 import com.ashton.mygreenday.viewmodel.TrackViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 class FavoritesFragment : Fragment() {
@@ -41,12 +40,28 @@ class FavoritesFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        val adapter = TrackAdapter {
+        val trackAdapter = TrackAdapter {
             lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.update(it.apply { favorite = !favorite })
+                val newValue = it.apply { favorite = !favorite }
+                viewModel.update(newValue)
             }
         }
-        binding.recyclerView.adapter = adapter
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = trackAdapter
+        }
+
+        viewModel.favoriteTracks.observe(viewLifecycleOwner, Observer {
+            CoroutineScope(Dispatchers.IO).launch {
+                trackAdapter.submitData(it)
+            }
+        })
+
+//        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+//            viewModel.favoriteTracks.collectLatest {
+//                trackAdapter.submitData(it)
+//            }
+//        }
     }
 }

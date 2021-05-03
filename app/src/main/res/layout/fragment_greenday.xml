@@ -21,7 +21,6 @@
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:listData="@{viewModel.tracks}"
             tools:listitem="@layout/item_track" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
