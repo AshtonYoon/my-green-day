@@ -26,7 +26,7 @@ data class Track(
 
     @SerializedName("artworkUrl60")
     @ColumnInfo(name = "artworkUrl60")
-    val artworkUrl100: String,
+    val artworkUrl60: String,
 
     @ColumnInfo(name = "favorite")
     var favorite: Boolean

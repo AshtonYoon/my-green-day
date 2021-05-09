@@ -26,6 +26,7 @@ class TrackPagingDataSource(private val service: ITunesService, private val trac
                 val data = response.body()?.list.orEmpty()
 
                 // TODO: 데이터를 다 가져온 상태가 아님에도 불구하고 데이터의 개수가 리밋보다 적은 케이스가 있음
+                // https://github.com/AshtonYoon/my-green-day/issues/1
                 if (data.size != PAGE_SIZE) nextPage = null
 
                 trackDao.insertAll(data)

@@ -28,7 +28,7 @@ class GreendayFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_greenday, container, false)
 
         return binding.root
@@ -40,7 +40,7 @@ class GreendayFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        var trackAdapter = TrackAdapter {
+        val trackAdapter = TrackAdapter {
             lifecycleScope.launch(Dispatchers.IO) {
                 viewModel.update(it.apply { favorite = !favorite })
             }
@@ -56,10 +56,5 @@ class GreendayFragment : Fragment() {
                 trackAdapter.submitData(it)
             }
         })
-//        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-//            viewModel.tracks.collectLatest {
-//                trackAdapter.submitData(it)
-//            }
-//        }
     }
 }

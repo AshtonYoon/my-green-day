@@ -28,7 +28,7 @@ class FavoritesFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_favorites, container, false)
 
         return binding.root
@@ -56,11 +56,5 @@ class FavoritesFragment : Fragment() {
                 trackAdapter.submitData(it)
             }
         })
-
-//        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-//            viewModel.favoriteTracks.collectLatest {
-//                trackAdapter.submitData(it)
-//            }
-//        }
     }
 }
