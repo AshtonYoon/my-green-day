@@ -5,8 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
     private const val BASE_URL = "https://itunes.apple.com/"
-    val service: ITunesService =
-        initService()
+    val service: ITunesService = initService()
 
     private fun initService(): ITunesService =
             Retrofit.Builder()
